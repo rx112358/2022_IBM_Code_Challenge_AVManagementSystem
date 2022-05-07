@@ -41,6 +41,30 @@ def get_mission_form(request):
     response=render(request, "mission.html")
     return response
 
+def get_recent_missions(request):
+
+    '''
+    Return the recent missions creatd by user
+    '''
+    try:
+        missions=Mission.objects.all().reverse()[:10]
+        mission_obj=[]
+
+        for mission in missions:
+            #print(mission.locations.values())
+            start_loc=[mission.locations.values()[0]['lat'],mission.locations.values()[0]['long']]
+            end_loc=[mission.locations.values()[1]['lat'],mission.locations.values()[1]['long']]
+            name=mission.mission_name
+            mission_obj.append({'name':name,'start':start_loc,'end':end_loc})
+        
+        context = {'missions': mission_obj }
+        response=render(request, "default.html",context)
+        return response
+    
+    except Mission.DoesNotExist():
+        print('Not enough missions created')
+        return JsonResponse({"mission_error":"Not enough missions"},status=200)
+
 def get(request):
 
     '''

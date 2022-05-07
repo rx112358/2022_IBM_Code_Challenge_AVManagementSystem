@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    
+    <title>Document</title>
+</head>
+<style>
+    body{
+    height:100vh;
+    margin: 0 0 0 0;
+    padding:0px;
+  }
+
+#map {
+    position: absolute;
+    top: 0px;
+    bottom: 0;
+    min-height: 80vh;
+    max-height: 90vh;
+    min-width: 60vw;
+    max-width: 80vw;
+}
+</style>
+<body>
+    <div class="row" style="min-height: 100%; max-width: 80%; max-width: 100%;">
+        
+        <div class="col-lg-6 mb-4">
+        <!-- start of map -->
+        <div id="map"></div>
+        <!-- end of map -->
+        </div>
+
+        <div class="col-lg-2 mb-4 style="color:bg-gradient-primary margin-left:0px;">
+            <div class="fieldWrapper" style="min-width:200px; overflow-y: scroll;">
+                {% block missions %}
+                    {% for mission in missions %}
+                    <button class="mission-list" data-mission-name="{{ mission.name }}" data-mission-start="{{ mission.start }}" data-mission-end="{{ mission.end }}">
+                    <span>
+                    {{mission.name}}
+                    </span>
+                    <p>{{mission.start}} <text> -> </text> {{mission.end}}
+                    </p>
+                    </button>
+                    {% endfor %}
+                {% endblock %}
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    var map = L.map('map');
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+
+function plot_route(start,end)
+{   console.log(start,end)
+    L.Routing.control({
+        waypoints: [
+        L.latLng(start),
+        L.latLng(end )
+        ],
+        routeWhileDragging: true
+        }).addTo(map);
+}
+
+for (btn of document.getElementsByClassName('mission-list')){
+    console.log(btn)
+    btn.onclick=function(event)
+    {
+        let start=btn.dataset.missionStart;
+        let end=btn.dataset.missionEnd;
+        
+        plot_route(start,end)
+    }
+}
+
+plot_route([57.54, 11.94],[57.6792, 11.949])
+</script>
+</html>

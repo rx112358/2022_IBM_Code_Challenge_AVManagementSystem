@@ -9,7 +9,7 @@ class Mission(models.Model):
 
     mission_name            =models.CharField(max_length=2000,default="mission_default")
     mission_id              =models.CharField(max_length=2000,default="M")
-    locations               =models.ForeignKey(Location,on_delete=models.CASCADE,null=True)
+    locations               =models.ManyToManyField(Location,null=True,related_name="start")
     device                  =models.ForeignKey(Device ,on_delete=models.CASCADE,null=True,default=1000)
     date                    =models.DateField(default=date.today)  # YYYY-MM-DD
     time                    =models.TimeField()

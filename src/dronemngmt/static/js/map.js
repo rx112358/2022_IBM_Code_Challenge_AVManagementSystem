@@ -136,22 +136,27 @@ function get_drop_location(coord_id,search_loc_id)
 
 }
 
-var key = 'pk.a786af1c5686dfc7212755d279ba275b';
-
-let map_id=document.querySelector('#map');
-
-var container = L.DomUtil.get(map_id);
-
-if(container != null)
+function plot_route(start,end)
 {
-  container._leaflet_id = null;
-
-
-  var map = L.map('map');
-  
-  map.setView([40.7259, -73.9805], 12);
-
-
-  L.tileLayer(`https://{s}-tiles.locationiq.com/v2/obk/r/{z}/{x}/{y}.png?key=${key}`).addTo(map);
-
+    L.Routing.control({
+        waypoints: [
+        L.latLng(parseFloat(start[0]), parseFloat(start[1])),
+        L.latLng(parseFloat(end[1]), parseFloat(end[1]) )
+        ],
+        routeWhileDragging: true
+        }).addTo(map);
 }
+/*
+for (btn of document.getElementsByClassName('mission-list')){
+    console.log(btn)
+    btn.onclick=function(event)
+    {
+        let start=btn.dataset.missionStart;
+        let end=btn.dataset.missionEnd;
+        
+        plot_route(start,end)
+    }
+}
+*/
+
+plot_route([57.74, 11.94],[57.6792, 11.949])

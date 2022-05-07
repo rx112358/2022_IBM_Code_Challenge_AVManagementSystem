@@ -21,16 +21,6 @@ from mission.models import Mission
 from device.models import Device
 from route.models import Location
 
-def get_route(request):
-
-    '''
-    Return the recent missions creatd by user
-    '''
-
-    response=render(request, "route.html")
-    return response
-
-
 def get(request):
 
     '''
