@@ -1,14 +1,37 @@
-from django.shortcuts import render
-from django.core import serializers
-from django.http import HttpResponse
 from django.views import View
+from django.http import HttpResponse,HttpResponseNotFound
+from django.shortcuts import render
+from django.urls import reverse
+from django.http import JsonResponse
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt,csrf_protect
+
+from django.contrib import messages
+
+from django.db.models import Count
+
+from django.shortcuts import redirect
+
+import json
+from django.core import serializers
 
 #Models
 from mission.models import Mission
 from device.models import Device
 from route.models import Location
 
-def get(self,request):
+def get_route(request):
+
+    '''
+    Return the recent missions creatd by user
+    '''
+
+    response=render(request, "route.html")
+    return response
+
+
+def get(request):
 
     '''
     Return the recent routes creatd by user
@@ -23,7 +46,7 @@ def get(self,request):
         print('Location not found')
         return JsonResponse({"Location_error":"Location not found"},status=200)
 
-def create_location(self,request):
+def create_location(request):
 
     '''
     Create new Location
@@ -39,7 +62,7 @@ def create_location(self,request):
 
     location.save()
 
-def update_location(self,request):
+def update_location(request):
 
     '''
     Update Location given Location_id
@@ -63,7 +86,7 @@ def update_location(self,request):
         print('Location not found')
         return JsonResponse({"Location not found":loc_id},status=200)
 
-def delete(self,request):
+def delete(request):
 
     '''
     Delete Location given Location_id
