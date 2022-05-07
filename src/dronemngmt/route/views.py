@@ -52,8 +52,9 @@ def create_location(request):
     Create new Location
     '''
     #Getting Location data from form details
-    loc_lat            =   request.POST.get('loc_lat')
-    loc_lon            =   request.POST.get('loc_lon')
+    data = json.loads(request.body)
+    loc_lat            =   data['loc_lat']
+    loc_lon            =   data['loc_lon']
 
     location=Location(lat=  loc_lat,
     long=loc_lon)
@@ -67,9 +68,10 @@ def update_location(request):
     '''
     Update Location given Location_id
     '''
-    loc_id             =   request.POST.get('loc_id')
-    loc_lat            =   request.POST.get('loc_lat')
-    loc_lon            =   request.POST.get('loc_lon')
+    data = json.loads(request.body)
+    loc_id             =   data['loc_id']
+    loc_lat            =   data['loc_lat']
+    loc_lon            =   data['loc_lon']
 
     try:
         #Check if Location exists

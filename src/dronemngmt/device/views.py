@@ -45,9 +45,9 @@ def create_device(request):
     #Getting Device data from form details
 
     # Device details
-
-    device_name    = request.POST.get(device_name)
-    device_model   = request.POST.get(device_model)    
+    data = json.loads(request.body)
+    device_name    = data[device_name]
+    device_model   = data[device_model]  
 
     device=Device(device_name=device_name,device_model=device_model)  
 
@@ -56,7 +56,7 @@ def create_device(request):
     device.save()
 
     #Creating the sensors, and adding to device
-    sensor_list     =json.loads(request.POST.get('sensors_data'))
+    sensor_list     =json.loads(data('sensors_data'))
     for sensor in sensor_list:
         sensor_name    = sensor[sensor_name]
         sensor_model   = sensor[sensor_model]
@@ -72,10 +72,10 @@ def update_device(request):
     '''
 
         # Device details
-
-    device_id      = request.POST.get(device_id)
-    device_name    = request.POST.get(device_name)
-    device_model   = request.POST.get(device_model)    
+    data = json.loads(request.body)
+    device_id      = data[device_id]
+    device_name    = data[device_name]
+    device_model   = data[device_model]    
 
     try:
         #Check if Device exists

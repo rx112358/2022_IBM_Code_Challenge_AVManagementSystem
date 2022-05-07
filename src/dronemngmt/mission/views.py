@@ -21,6 +21,8 @@ from mission.models import Mission
 from device.models import Device
 from route.models import Location
 
+import json
+
 def get_dashboard(request):
 
     '''
@@ -59,39 +61,44 @@ def create_mission(request):
     Create new mission
     '''
     #Getting mission data from form details
-    mission_name            =   request.POST.get('mission_name')
-    #device_id               =   request.POST.get('device_id'   )
-    date                    =   request.POST.get('date'        )
-    time                    =   request.POST.get('time'        )
+    data = json.loads(request.body)
+    print(data)
+    
+    mission_name = data['mission_name']
+    #device_id    = data['device_id']
+    date         = data['date']
+    time         = data['time']
 
-    mission=Mission(mission_name=mission_name      
-    ,date=date         
-    ,time=time)
-
-    print(mission)
+    mission=Mission(mission_name=mission_name,date=date,time=time)
 
     mission.save()
+    print(mission)
 
         #Creating the locations, and adding to device
-    location_list      =request.POST.get('locations_data')
+    location_list      =json.loads(data['locations'])
+    print(location_list)
     for location in location_list:
         location_lat   = location['lat']
         location_lon   = location['long']
         
-        location_obj=location.objects.create(lat=location_lat,long=location_lon)
-        mission.locations.add(location_obj)
+        location_obj=Location.objects.create(lat=location_lat,long=location_lon)
+        print(location_obj)
+        mission.locations=location_obj
+    
+    return JsonResponse({"Mission created":mission.id},status=200)
 
 def update_mission(request):
 
     '''
     Update mission given mission_id
     '''
-
-    mission_name            =   request.POST.get('mission_name' )
-    mission_id              =   request.POST.get('mission_id' )
-    device                  =   request.POST.get('device_id' )
-    date                    =   request.POST.get('date' )
-    time                    =   request.POST.get('time' )
+    data = json.loads(request.body)
+    
+    mission_name            =   data['mission_name']
+    mission_id              =   data['mission_id']
+    device                  =   data['device_id']
+    date                    =   data['date']
+    time                    =   data['time']
 
     try:
         #Check if mission exists
@@ -108,7 +115,7 @@ def update_mission(request):
     
     except Mission.DoesNotExist:
         print('Mission not found')
-        return JsonResponse({"Mission not found":mission_id},status=200)
+        return jsonResponse({"Mission not found":mission_id},status=200)
 
 def delete(request):
 
