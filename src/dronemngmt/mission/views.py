@@ -26,7 +26,7 @@ import json
 def get_dashboard(request):
 
     '''
-    Return the recent missions creatd by user
+    Display dashboard
     '''
 
     response=render(request, "index.html")
@@ -35,7 +35,7 @@ def get_dashboard(request):
 def get_mission_form(request):
 
     '''
-    Return the recent missions creatd by user
+    Return form to create missions
     '''
 
     response=render(request, "mission.html")
