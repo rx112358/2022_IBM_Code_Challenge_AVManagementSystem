@@ -51,14 +51,23 @@ def get_recent_missions(request):
         mission_obj=[]
 
         for mission in missions:
-            #print(mission.locations.values())
-            start_loc=[mission.locations.values()[0]['lat'],mission.locations.values()[0]['long']]
-            end_loc=[mission.locations.values()[1]['lat'],mission.locations.values()[1]['long']]
-            name=mission.mission_name
-            mission_obj.append({'name':name,'start':start_loc,'end':end_loc})
-        
+
+            start_loc=[0,0]
+            end_loc=[0,0]
+
+            location=mission.locations.values()
+            if location.exists():
+                print(mission.locations.values())
+                start_loc[0]=mission.locations.values()[0]['lat']
+                start_loc[1]=mission.locations.values()[0]['long']
+                end_loc[0]=mission.locations.values()[1]['lat'],
+                end_loc[1]=mission.locations.values()[1]['long']
+                name=mission.mission_name
+                mission_obj.append({'name':name,'start':start_loc,'end':end_loc})
+                
         context = {'missions': mission_obj }
-        response=render(request, "default.html",context)
+        #response=render(request, "default.html",context)
+        response=render(request, "route.html",context)
         return response
     
     except Mission.DoesNotExist():
@@ -107,7 +116,7 @@ def create_mission(request):
         
         location_obj=Location.objects.create(lat=location_lat,long=location_lon)
         print(location_obj)
-        mission.locations=location_obj
+        mission.locations.add(location_obj)
     
     return JsonResponse({"Mission created":mission.id},status=200)
 

@@ -1,4 +1,13 @@
 
+function showAlert(message){
+    var alert_container = document.getElementById("alert-message");
+    alert_container.innerHTML = message;
+    alert_container.classList.add("show-alert");
+    setTimeout(function(){
+      alert_container.classList.remove("show-alert");
+    }, 3000);
+}
+
 function get_location_data(location_list)
 {
     let locations=[]
@@ -46,5 +55,13 @@ document.querySelector("#create-mission").onclick=function(event) {
         mode:'same-origin',
         credentials: 'include'
     })
+    .then(response => response.json())
+    .then(result => {
+    console.log('Success:', result);
+    alert("Mission has been created succesfully")
+    })
+    .catch(error => {
+    console.error('Error:', error);
+    });
     
     }

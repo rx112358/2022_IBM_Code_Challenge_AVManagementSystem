@@ -65,16 +65,34 @@ attribution: '© OpenStreetMap contributors'
 
 
 function plot_route(start,end)
-{   console.log(start,end)
-    L.Routing.control({
+{   
+waypoints = [start,end];
+var control = L.Routing.control({
+  waypoints: waypoints,
+  plan: L.Routing.plan(waypoints, {
+    createMarker: function(i, wp) {
+      return L.marker(wp.latLng, {
+        draggable: false
+      });
+    }
+  }),
+  addWaypoints: false,
+  routeWhileDragging: false,
+  show: false
+}).addTo(map);
+/*    
+console.log(start,end)
+    var routingControl = new L.Routing.control({
         waypoints: [
         L.latLng(start),
         L.latLng(end )
         ],
         routeWhileDragging: true
-        }).addTo(map);
+        }).addTo(map); */
 }
 
+function plot()
+{
 for (btn of document.getElementsByClassName('mission-list')){
     console.log(btn)
     btn.onclick=function(event)
@@ -83,9 +101,12 @@ for (btn of document.getElementsByClassName('mission-list')){
         let end=btn.dataset.missionEnd;
         
         plot_route(start,end)
+        console.log(start,end)
     }
 }
-
+}
 plot_route([57.54, 11.94],[57.6792, 11.949])
+
+plot()
 </script>
 </html>
