@@ -86,16 +86,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    },
-    'postgres1': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'superdrop',
-        'USER': 'superdropuser',
-        'PASSWORD': 'xplore@121',
-        'HOST': 'localhost',
-        'PORT': '',
     }
 }
+
+#    'postgres1': {
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#        'NAME': 'superdrop',
+#        'USER': 'superdropuser',
+#        'PASSWORD': 'xplore@121',
+#        'HOST': 'localhost',
+#        'PORT': '',
+#    }
+
 
 
 # Password validation
