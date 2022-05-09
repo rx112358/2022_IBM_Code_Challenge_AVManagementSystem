@@ -16,7 +16,8 @@ The main features are,
 
 Monitor the sensor values
 
-![draft_arch (2)](https://user-images.githubusercontent.com/53977169/167281739-b40f0e8e-6276-48bf-8895-66fd248ecb4e.jpg)
+![draft_arch](https://user-images.githubusercontent.com/53977169/167410080-dd54006e-012a-46bc-964b-02d5bbd18805.jpg)
+
 
 ## Tech stack
 
